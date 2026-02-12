@@ -1,39 +1,38 @@
-# My Fullstack Application
+# Electrotem App
 
-## Description
-A fullstack application with Spring Boot backend and React frontend.
+## Overview
+The Electrotem App is a project developed using Spring Boot and follows the MVC architecture pattern. It integrates AI technologies to generate product descriptions and images, providing users with an enhanced shopping experience.
 
-## Tech Stack
-- **Backend**: Spring Boot (Java)
-- **Frontend**: React
-- **Database**: PostgreSql
-
-## Prerequisites
-- Java 17+
-- Node.js 18+
-- Maven
-- [Database if applicable]
+## Features
+- **Spring Boot MVC Architecture**: A robust structure that separates the application into three main components: Model, View, and Controller.
+- **Spring AI Integration**: Harnessing the power of artificial intelligence, the application can automatically generate descriptions and images for products, reducing manual input and improving consistency in presentation.
+- **AI Assistant Chatting Capabilities**: Engage users in real-time conversations, offering assistance and answering queries regarding products and services.
 
 ## Setup Instructions
+1. **Clone the Repository**
+   ```bash
+   git clone https://github.com/UdayBarman001/Electrotem-App.git
+   cd Electrotem-App
+   ```
 
-### Backend Setup (IntelliJ IDEA)
-1. Open IntelliJ IDEA
-2. Open the `backend` folder as a project
-3. Wait for Maven to download dependencies
-4. Configure `application.properties` with your database credentials
-5. Run the Spring Boot application
-6. Backend runs on: http://localhost:8080
+2. **Install Dependencies**
+   Make sure you have Java and Maven installed. Use the following command to install dependencies:
+   ```bash
+   mvn install
+   ```
 
-### Frontend Setup (VS Code)
-1. Open VS Code
-2. Open the `frontend` folder
-3. Open terminal in VS Code
-4. Run: `npm install`
-5. Create `.env` file with: `REACT_APP_API_URL=http://localhost:8080/api`
-6. Run: `npm start`
-7. Frontend runs on: http://localhost:3000
+3. **Configure Application Properties**
+   Update the `application.properties` file with your configuration details such as database parameters, API keys for AI services, etc.
 
-## Running the Application
-1. Start backend first (IntelliJ)
-2. Then start frontend (VS Code)
-3. Access app at http://localhost:3000
+4. **Run the Application**
+   You can run the application using:
+   ```bash
+   mvn spring-boot:run
+   ```
+   This will start the embedded server, and you can access the application at `http://localhost:8080`.
+
+## Contribution Guidelines
+Feel free to make contributions to improve the Electrotem App. Please ensure that you follow coding standards and create meaningful commits.
+
+## License
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
