@@ -15,6 +15,9 @@ const CheckoutPopup = ({ show, handleClose, cartItems, totalPrice }) => {
   const [toastVariant, setToastVariant] = useState('success');
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  // Default placeholder image
+  const DEFAULT_IMAGE = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80'%3E%3Crect width='80' height='80' fill='%23ddd'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-family='sans-serif' font-size='14' fill='%23999'%3ENo Image%3C/text%3E%3C/svg%3E";
+
   const handleConfirm = async (event) => {
     event.preventDefault();
     const form = event.currentTarget;
@@ -62,8 +65,10 @@ const CheckoutPopup = ({ show, handleClose, cartItems, totalPrice }) => {
       setIsSubmitting(false);
     }
   };
+
   const convertBase64ToDataURL = (base64String, mimeType = 'image/jpeg') => {
-    if (!base64String) return unplugged; // Return fallback image if no data
+    // Return placeholder if no data
+    if (!base64String) return DEFAULT_IMAGE;
 
     // If it's already a data URL, return as is
     if (base64String.startsWith('data:')) {
@@ -78,6 +83,7 @@ const CheckoutPopup = ({ show, handleClose, cartItems, totalPrice }) => {
     // Convert base64 string to data URL
     return `data:${mimeType};base64,${base64String}`;
   };
+
   return (
     <>
       <Modal show={show} onHide={handleClose} centered>
@@ -90,7 +96,7 @@ const CheckoutPopup = ({ show, handleClose, cartItems, totalPrice }) => {
               {cartItems.map((item) => (
                 <div key={item.id} className="d-flex mb-3 border-bottom pb-3">
                   <img
-                    src={convertBase64ToDataURL(item.imageData)}
+                    src={convertBase64ToDataURL(item.imageData, item.imageType)}
                     alt={item.name}
                     className="me-3 rounded"
                     style={{ width: '80px', height: '80px', objectFit: 'cover' }}
