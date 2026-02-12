@@ -3,6 +3,7 @@ import AppContext from "../Context/Context";
 import axios from "axios";
 import CheckoutPopup from "./CheckoutPopup";
 import { Button } from 'react-bootstrap';
+import { toast } from 'react-toastify';
 
 const Cart = () => {
   const { cart, removeFromCart, clearCart } = useContext(AppContext);
@@ -12,6 +13,9 @@ const Cart = () => {
   const [showModal, setShowModal] = useState(false);
 
   const baseUrl = import.meta.env.VITE_BASE_URL;
+
+  // Default placeholder image (you can replace with your own)
+  const DEFAULT_IMAGE = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80'%3E%3Crect width='80' height='80' fill='%23ddd'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-family='sans-serif' font-size='14' fill='%23999'%3ENo Image%3C/text%3E%3C/svg%3E";
 
   useEffect(() => {
     const fetchImagesAndUpdateCart = async () => {
@@ -73,22 +77,24 @@ const Cart = () => {
     const newCartItems = cartItems.filter((item) => item.id !== itemId);
     setCartItems(newCartItems);
   };
+
   const convertBase64ToDataURL = (base64String, mimeType = 'image/jpeg') => {
-  // ✅ Fallback image if base64String is empty or undefined
-  const fallbackImage = "/fallback-image.jpg"; // make sure this image exists in your public folder
+    // Return placeholder if no data
+    if (!base64String) return DEFAULT_IMAGE;
 
-  if (!base64String) return fallbackImage;
+    // If it's already a data URL, return as is
+    if (base64String.startsWith('data:')) {
+      return base64String;
+    }
 
-  if (base64String.startsWith("data:")) {
-    return base64String;
-  }
+    // If it's already a URL, return as is
+    if (base64String.startsWith('http')) {
+      return base64String;
+    }
 
-  if (base64String.startsWith("http")) {
-    return base64String;
-  }
-
-  return `data:${mimeType};base64,${base64String}`;
-};
+    // Convert base64 string to data URL
+    return `data:${mimeType};base64,${base64String}`;
+  };
 
   const handleCheckout = async () => {
     try {
@@ -122,8 +128,10 @@ const Cart = () => {
       clearCart();
       setCartItems([]);
       setShowModal(false);
+      toast.success("Order placed successfully!");
     } catch (error) {
       console.log("error during checkout", error);
+      toast.error("Error during checkout");
     }
   };
 
@@ -161,7 +169,7 @@ const Cart = () => {
                             <td>
                               <div className="d-flex align-items-center">
                                 <img
-                                  src={convertBase64ToDataURL(item.imageData)}
+                                  src={convertBase64ToDataURL(item.imageData, item.imageType)}
                                   alt={item.name}
                                   className="rounded me-3"
                                   width="80"
